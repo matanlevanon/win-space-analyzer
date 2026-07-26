@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+  <meta charset="UTF-8" />
+  <meta http-equiv="Content-Security-Policy"
+        content="default-src 'self'; style-src 'self' 'unsafe-inline'; script-src 'self';" />
+  <title>Win Space Analyzer</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <header class="app-header">
+    <div class="header-right">
+      <h1 class="app-title" data-i18n="appTitle">💾 Win Space Analyzer</h1>
+      <span class="app-subtitle" data-i18n="subtitle">Find what’s taking up your space</span>
+      <button id="version-pill" class="version-pill" data-i18n-title="checkUpdates" title="Check for updates">v…</button>
+    </div>
+    <div class="header-left">
+      <button id="btn-back-results" class="btn btn-ghost" data-i18n="backToResults" hidden>↩ Back to results</button>
+      <button id="btn-home" class="btn btn-ghost" data-i18n="home" hidden>🏠 Home</button>
+      <button id="lang-toggle" class="btn btn-ghost lang-toggle">עברית</button>
+    </div>
+  </header>
+
+  <!-- Update banner -->
+  <div id="update-banner" class="update-banner" hidden>
+    <span id="update-text" class="update-text"></span>
+    <div class="update-actions">
+      <button id="update-action" class="btn btn-sm btn-primary" hidden></button>
+      <button id="update-dismiss" class="btn btn-sm btn-ghost">✕</button>
+    </div>
+  </div>
+
+  <!-- Home: drives -->
+  <section id="view-home" class="view">
+    <div class="view-head">
+      <h2 data-i18n="yourDrives">Your drives</h2>
+      <button id="btn-refresh-drives" class="btn btn-ghost" data-i18n="refresh">↻ Refresh</button>
+    </div>
+    <div id="drives-list" class="drives-list"></div>
+  </section>
+
+  <!-- Scanning (progress) -->
+  <section id="view-scanning" class="view" hidden>
+    <div class="scanning-box">
+      <div class="spinner"></div>
+      <h2 id="scan-title">…</h2>
+      <div class="progress-bar"><div class="progress-fill"></div></div>
+      <p id="scan-count" class="scan-count"></p>
+      <p id="scan-path" class="scan-path" dir="ltr"></p>
+      <button id="btn-cancel-scan" class="btn btn-danger" data-i18n="cancelScan">Cancel scan</button>
+    </div>
+  </section>
+
+  <!-- Results -->
+  <section id="view-results" class="view" hidden>
+    <!-- Volume usage strip: total / used / free — always visible in results -->
+    <div id="volume-strip" class="volume-strip" hidden>
+      <div class="vs-info">
+        <span id="vs-name" class="vs-name"></span>
+        <span id="vs-used" class="vs-used"></span>
+        <span id="vs-free" class="vs-free"></span>
+      </div>
+      <div class="vs-bar">
+        <div id="vs-fill" class="vs-fill"></div>
+        <span id="vs-pct" class="vs-pct"></span>
+      </div>
+    </div>
+
+    <div class="tabs">
+      <button class="tab active" data-mode="browse" data-i18n="tabBrowse">🗂️ Browse</button>
+      <button class="tab" data-mode="biggest" data-i18n="tabBiggest">📊 Biggest folders</button>
+      <button class="tab" data-mode="changes" id="tab-changes" data-i18n="tabChanges">📈 Changes</button>
+      <span id="scan-meta" class="scan-meta"></span>
+    </div>
+
+    <!-- Browse mode -->
+    <div id="mode-browse">
+      <nav id="breadcrumb" class="breadcrumb"></nav>
+
+      <div class="results-toolbar">
+        <div class="current-summary">
+          <span id="current-name" class="current-name"></span>
+          <span id="current-size" class="current-size"></span>
+        </div>
+        <div class="toolbar-controls">
+          <label class="sort-control"><span data-i18n="sortLabel">Sort:</span>
+            <select id="sort-select">
+              <option value="size-desc" data-i18n="sortSizeDesc">Size (largest first)</option>
+              <option value="size-asc" data-i18n="sortSizeAsc">Size (smallest first)</option>
+              <option value="name-asc" data-i18n="sortNameAsc">Name (A → Z)</option>
+            </select>
+          </label>
+          <label class="threshold-control"><span data-i18n="showAbove">Show above:</span>
+            <strong id="minsize-value">0</strong> <span>GB</span>
+            <input type="range" id="minsize-slider" min="0" max="100" value="0" step="1" />
+          </label>
+          <label class="threshold-control"><span data-i18n="highlightAbove">Highlight above:</span>
+            <strong id="threshold-value">40</strong> <span>GB</span>
+            <input type="range" id="threshold-slider" min="1" max="200" value="40" step="1" />
+          </label>
+        </div>
+      </div>
+
+      <div class="results-body">
+        <div class="treemap-panel">
+          <div id="treemap" class="treemap"></div>
+        </div>
+        <div class="list-panel">
+          <div class="list-head">
+            <span data-i18n="colFolderFile">Folder / file</span>
+            <span data-i18n="colSize">Size</span>
+            <span data-i18n="colPct">Percent</span>
+            <span></span>
+          </div>
+          <div id="items-list" class="items-list"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Flat list mode (biggest / changes) -->
+    <div id="mode-flat" hidden>
+      <div class="flat-toolbar">
+        <span id="flat-title" class="flat-title"></span>
+        <span id="flat-hint" class="flat-hint"></span>
+      </div>
+      <div class="flat-list-head" id="flat-list-head"></div>
+      <div id="flat-list" class="items-list flat-list"></div>
+    </div>
+  </section>
+
+  <!-- About & what's new -->
+  <div id="about-modal" class="modal-overlay" hidden>
+    <div class="modal">
+      <div class="modal-head">
+        <h2 data-i18n="aboutTitle">ℹ️ About &amp; what’s new</h2>
+        <button id="about-close" class="modal-close" aria-label="Close">✕</button>
+      </div>
+      <div class="modal-body">
+        <div class="about-version-row">
+          <div>
+            <div class="av-label" data-i18n="installedVersion">Installed version</div>
+            <div id="about-current-version" class="av-value">v…</div>
+          </div>
+          <div class="about-check-wrap">
+            <button id="about-check" class="btn btn-primary" data-i18n="checkUpdates">🔄 Check for updates</button>
+            <span id="about-update-status" class="about-status"></span>
+          </div>
+        </div>
+        <h3 class="whatsnew-title" data-i18n="whatsNew">What’s new in recent versions</h3>
+        <div id="whatsnew-list" class="whatsnew-list"></div>
+      </div>
+    </div>
+  </div>
+
+  <div id="toast" class="toast" hidden></div>
+
+  <script src="i18n.js"></script>
+  <script src="treemap.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>

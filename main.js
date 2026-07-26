@@ -1,6 +1,6 @@
 'use strict';
 
-// Enlarge libuv's I/O thread pool (shared process-wide, including workers) — before any fs use.
+// Enlarge libuv's I/O thread pool (shared process-wide, including workers) - before any fs use.
 process.env.UV_THREADPOOL_SIZE = process.env.UV_THREADPOOL_SIZE || '24';
 
 const { app, BrowserWindow, ipcMain, shell, dialog, Tray, Menu, nativeImage } = require('electron');
@@ -115,7 +115,7 @@ function createTray() {
   } catch (_) {}
 }
 
-// Language change from the renderer — persisted for future launches, refreshes the tray
+// Language change from the renderer - persisted for future launches, refreshes the tray
 ipcMain.handle('set-language', (_evt, lang) => {
   currentLang = lang === 'he' ? 'he' : 'en';
   const s = readSettings();
@@ -139,7 +139,7 @@ app.whenReady().then(() => {
 
 app.on('before-quit', () => { app.isQuitting = true; });
 
-// Don't quit automatically when the window closes — stay in the tray until explicit exit.
+// Don't quit automatically when the window closes - stay in the tray until explicit exit.
 app.on('window-all-closed', () => {
   if (process.platform === 'darwin' && app.isQuitting) app.quit();
 });

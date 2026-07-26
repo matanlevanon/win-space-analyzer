@@ -149,7 +149,7 @@ function toast(msg) {
 
 // ---------- Drives (home) ----------
 async function loadDrives() {
-  // Placeholder only when the cache is empty — avoids flicker on refresh
+  // Placeholder only when the cache is empty - avoids flicker on refresh
   if (!state.drives.length) {
     el.drivesList.innerHTML = '<div class="empty-state">' + t('loadingDrives') + '</div>';
   }
@@ -275,7 +275,7 @@ function renderDrives() {
 }
 
 // ---------- Volume usage strip (results view) ----------
-// Shows total capacity / used / free of the volume being browsed — visible in
+// Shows total capacity / used / free of the volume being browsed - visible in
 // every results mode and at every depth, not only on the home screen.
 function computeVolInfo() {
   const root = state.scanRoot;
@@ -716,7 +716,7 @@ function renderChanges() {
 
     const sizeCell = document.createElement('div');
     sizeCell.className = 'flat-size';
-    sizeCell.textContent = ch.removed ? '—' : formatSize(n.size);
+    sizeCell.textContent = ch.removed ? '-' : formatSize(n.size);
 
     const deltaCell = document.createElement('div');
     deltaCell.className = 'flat-size ' +
@@ -816,12 +816,17 @@ window.addEventListener('resize', () => {
 });
 
 // ---------- Version & updates ----------
-// Friendly, non-technical release notes — one entry per version, per language.
+// Friendly, non-technical release notes - one entry per version, per language.
 const RELEASE_NOTES = [
   {
+    v: '1.3.1', date: '26.7.2026',
+    en: 'Text polish everywhere: cleaner punctuation and wording across the app, the tooltips, and the website.',
+    he: 'ליטוש טקסטים בכל מקום: פיסוק וניסוח נקיים יותר באפליקציה, בחלוניות המידע ובאתר.'
+  },
+  {
     v: '1.3.0', date: '26.7.2026',
-    en: 'The app now speaks English too — switch language any time with the button in the header. Plus, the drive capacity bar (used / free with a percentage) now stays visible while you browse inside the drive, not just on the home screen.',
-    he: 'האפליקציה מדברת עכשיו גם אנגלית — מחליפים שפה בלחיצה על הכפתור בכותרת. בנוסף, פס הקיבולת של הכונן (בשימוש / פנוי עם אחוזים) מוצג עכשיו גם בזמן העיון בתוך הכונן, לא רק במסך הבית.'
+    en: 'The app now speaks English too - switch language any time with the button in the header. Plus, the drive capacity bar (used / free with a percentage) now stays visible while you browse inside the drive, not just on the home screen.',
+    he: 'האפליקציה מדברת עכשיו גם אנגלית - מחליפים שפה בלחיצה על הכפתור בכותרת. בנוסף, פס הקיבולת של הכונן (בשימוש / פנוי עם אחוזים) מוצג עכשיו גם בזמן העיון בתוך הכונן, לא רק במסך הבית.'
   },
   {
     v: '1.2.1', date: '22.7.2026',
@@ -840,8 +845,8 @@ const RELEASE_NOTES = [
   },
   {
     v: '1.0.0', date: '22.7.2026',
-    en: 'The first release 🎉 — fast drive scanning with a colorful treemap and an "Open in Explorer" button to delete what you don\'t need.',
-    he: 'ההשקה הראשונה 🎉 — סריקת כוננים מהירה עם מפת ריבועים צבעונית וכפתור "פתח בסייר" כדי למחוק מה שלא צריך.'
+    en: 'The first release 🎉 - fast drive scanning with a colorful treemap and an "Open in Explorer" button to delete what you don\'t need.',
+    he: 'ההשקה הראשונה 🎉 - סריקת כוננים מהירה עם מפת ריבועים צבעונית וכפתור "פתח בסייר" כדי למחוק מה שלא צריך.'
   }
 ];
 
@@ -954,7 +959,7 @@ window.api.onUpdateStatus((data) => {
       });
       break;
     case 'error':
-      // Silent — don't bother the user about a failed automatic check
+      // Silent - don't bother the user about a failed automatic check
       break;
   }
 });

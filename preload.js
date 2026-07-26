@@ -28,7 +28,7 @@ contextBridge.exposeInMainWorld('api', {
     return () => ipcRenderer.removeListener('scan-progress', listener);
   },
 
-  // Language — keeps the tray menu in sync with the UI language
+  // Language - keeps the tray menu in sync with the UI language
   setLanguage: (lang) => ipcRenderer.invoke('set-language', lang),
 
   // Version & updates

@@ -1,4 +1,4 @@
-# win-space-analyzer — one-line installer
+# win-space-analyzer - one-line installer
 # Usage:  irm https://raw.githubusercontent.com/matanlevanon/win-space-analyzer/main/install.ps1 | iex
 
 $ErrorActionPreference = 'Stop'

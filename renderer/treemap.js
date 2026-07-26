@@ -1,7 +1,7 @@
 'use strict';
 
 /*
- * Self-contained treemap (squarified algorithm) — no external dependencies.
+ * Self-contained treemap (squarified algorithm) - no external dependencies.
  * Renders tiles sized relative to item size; click = drill in.
  */
 (function () {
@@ -56,7 +56,7 @@
       const rowSum = rowVals.reduce((a, v) => a + v, 0);
       const rowArea = rowSum * scale;
       if (w >= h) {
-        // Side column — width = rowArea / h
+        // Side column - width = rowArea / h
         const colW = rowArea / h;
         let cy = y;
         for (let k = 0; k < row.length; k++) {
@@ -67,7 +67,7 @@
         x += colW;
         w -= colW;
       } else {
-        // Top row — height = rowArea / w
+        // Top row - height = rowArea / w
         const rowH = rowArea / w;
         let cx = x;
         for (let k = 0; k < row.length; k++) {
@@ -147,7 +147,7 @@
         tile.appendChild(label);
       }
 
-      tile.title = nameFor(item) + ' — ' + formatSize(item.size);
+      tile.title = nameFor(item) + ' - ' + formatSize(item.size);
 
       if (item.type === 'dir') {
         tile.addEventListener('click', () => onClick(item));

@@ -1,8 +1,8 @@
 {
   "name": "win-space-analyzer",
   "productName": "Win Space Analyzer",
-  "version": "1.3.0",
-  "description": "Disk-space analyzer for Windows 11 — finds what is taking up space on your drives. English & Hebrew UI.",
+  "version": "1.3.1",
+  "description": "Disk-space analyzer for Windows 11 - finds what is taking up space on your drives. English & Hebrew UI.",
   "main": "main.js",
   "author": "Matan",
   "license": "MIT",

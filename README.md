@@ -6,7 +6,7 @@
 
 ### 💾 Instantly see what's eating your disk space on Windows 11
 
-A fast disk-space scanner with a visual treemap you can dive right into - installed with a single command. English & Hebrew UI.
+A fast disk-space scanner with a visual treemap, installed with a single command. English & Hebrew UI.
 
 <br />
 
@@ -43,7 +43,7 @@ The command downloads the latest release and launches the installer automaticall
 <br />
 Prefer a regular install? Download the **[Setup file](https://github.com/matanlevanon/win-space-analyzer/releases/latest)** and run it like any app.
 
-> ⚠️ The app isn't digitally signed yet - Windows SmartScreen may warn on first run.
+> ⚠️ The app isn't digitally signed yet, so Windows SmartScreen sometimes warns on first run.
 > Click **"More info" → "Run anyway"**. The code is fully open and auditable right here.
 
 </div>
@@ -67,7 +67,7 @@ A parallel robocopy-based engine scans a full drive in ~30 seconds - about 3.5×
 <td width="33%" valign="top" align="center">
 
 ### 🗂️ Visual treemap
-Every folder is a tile sized by weight - spot the big ones at a glance, click to dive in.
+Every folder is a tile sized by weight - spot the big ones at a glance, click to drill in.
 
 </td>
 <td width="33%" valign="top" align="center">

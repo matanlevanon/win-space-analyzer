@@ -1,7 +1,7 @@
 'use strict';
 
 /*
- * Lightweight i18n for the renderer — English / Hebrew.
+ * Lightweight i18n for the renderer - English / Hebrew.
  * window.I18N = { t, lang, setLang, apply }
  * Static DOM nodes are translated via [data-i18n] / [data-i18n-title].
  */
@@ -64,7 +64,7 @@
       newPlus: 'New +{size}',
       folderNotFound: 'Folder not found in the tree',
       cantOpen: 'Could not open the location',
-      justNow: 'just now',
+      justNow: 'now',
       minAgo: '{n} min ago',
       hrAgo: '{n} hr ago',
       yesterday: 'yesterday',

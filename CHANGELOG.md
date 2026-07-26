@@ -1,68 +1,82 @@
-<div dir="rtl">
+# Changelog
 
-# יומן שינויים (Changelog)
-
-כל השינויים המשמעותיים בפרויקט מתועדים כאן. הפורמט מבוסס על
-[Keep a Changelog](https://keepachangelog.com/), והגרסאות עוקבות אחר
+All notable changes to this project are documented here. The format is based on
+[Keep a Changelog](https://keepachangelog.com/) and versions follow
 [Semantic Versioning](https://semver.org/).
 
-> גרסאות עד 1.2.1 (כולל) שייכות לפרויקט המקורי
-> [disk-space-analyzer](https://github.com/MatanCH2020/disk-space-analyzer) (MIT).
-> החל מ-1.3.0 הפרויקט ממשיך כ-win-space-analyzer.
+> Versions up to and including 1.2.1 belong to the original
+> [disk-space-analyzer](https://github.com/MatanCH2020/disk-space-analyzer) project (MIT).
+> From 1.3.0 onward the project continues as **win-space-analyzer**.
 
 ## [1.3.0] — 2026-07-26
-### נוסף
-- **ממשק דו-לשוני (עברית / English)** — כפתור החלפת שפה בכותרת; הבחירה נשמרת בין הפעלות, כולל היפוך כיוון מלא (RTL/LTR) של כל הממשק, ה-treemap ותפריט ה-tray.
-- **פס קיבולת כונן במסך התוצאות** — סה"כ נפח / בשימוש / פנוי עם בר ואחוזים, מוצג תמיד בזמן עיון בתוך הכונן (בכל הטאבים ובכל עומק), לא רק במסך הבית. מתעדכן ברקע עם נתוני מקום פנוי טריים.
+### Added
+- **Bilingual UI (English / עברית)** — a language toggle in the header; the choice persists
+  between launches, with a full direction flip (LTR/RTL) of the entire interface, the
+  treemap, and the system-tray menu. English is the default.
+- **Volume capacity bar in the results view** — total size / used / free with a bar and
+  percentage, always visible while browsing inside a drive (on every tab and at every
+  folder depth), not just on the home screen. Refreshes free-space data in the background.
+
+### Changed
+- Landing page (`docs/`) rewritten in English for an international audience.
+- Project identity: renamed to win-space-analyzer with a new app ID, so it installs
+  side-by-side with the original app; auto-updates now come from this repository.
 
 [1.3.0]: https://github.com/matanlevanon/win-space-analyzer/releases/tag/v1.3.0
 
 ## [1.2.1] — 2026-07-22
-### נוסף
-- **מסך "אודות ומה חדש"** — נפתח מתווית הגרסה בכותרת; מציג את הגרסה המותקנת, כפתור "בדוק עדכונים", ורשימת הערות ידידותיות על מה השתנה בכל גרסה. נפתח אוטומטית פעם אחת אחרי עדכון.
+### Added
+- **"About & what's new" screen** — opened from the version pill in the header; shows the
+  installed version, a "Check for updates" button, and friendly release notes for each
+  version. Opens automatically once after an update.
 
-### תוקן
-- **באנר עדכון שהופיע ריק** — כלל CSS גבר על תכונת `hidden` וגרם לבאנר להיות מוצג תמיד (וריק). תוקן גלובלית.
+### Fixed
+- **Update banner appearing empty** — a CSS rule overrode the `hidden` attribute and kept
+  the banner always visible (and empty). Fixed globally.
 
 [1.2.1]: https://github.com/MatanCH2020/disk-space-analyzer/releases/tag/v1.2.1
 
 ## [1.2.0] — 2026-07-22
-### נוסף
-- **אייקון ב-System Tray** (ליד השעון) בזמן שהאפליקציה רצה — עם תפריט: הצג / בדוק עדכונים / יציאה. סגירת החלון מסתירה ל-tray, יציאה מלאה דרך התפריט.
-- **הצגת גרסה בממשק** (תווית בכותרת) + **עדכון מתוך האפליקציה**: בדיקה אוטומטית מול GitHub, הורדת עדכון והתקנה בלחיצה (electron-updater).
+### Added
+- **System-tray icon** (next to the clock) while the app runs — with a menu: Show / Check
+  for updates / Quit. Closing the window hides to the tray; full exit via the menu.
+- **Version display in the UI** (header pill) + **in-app updates**: automatic check against
+  GitHub, one-click download and install (electron-updater).
 
-### תוקן
-- **כיוון הסליידרים** (הצג מעל / הדגש מעל) שעבד הפוך ב-RTL — כעת מתנהג תקין.
+### Fixed
+- **Slider direction** (Show above / Highlight above) that worked backwards in RTL.
 
 [1.2.0]: https://github.com/MatanCH2020/disk-space-analyzer/releases/tag/v1.2.0
 
 ## [1.1.0] — 2026-07-22
-### נוסף
-- **אייקון אפליקציה מותאם** (מוטיב מפת ריבועים) — מוצג בקובץ ההתקנה, בקיצור הדרך ובחלון האפליקציה.
-- **דף נחיתה בעברית** (`docs/`) מעוצב RTL, מתפרסם ב-GitHub Pages, עם הסבר, יכולות ופקודת התקנה.
+### Added
+- **Custom app icon** (treemap motif) — shown in the installer, the shortcut, and the app window.
+- **Landing page** (`docs/`), published via GitHub Pages, with an overview, features, and
+  the install command.
 
 [1.1.0]: https://github.com/MatanCH2020/disk-space-analyzer/releases/tag/v1.1.0
 
 ## [1.0.0] — 2026-07-22
-הגרסה הציבורית הראשונה.
+The first public release.
 
-### נוסף
-- **סורק אחסון ל-Windows 11** בממשק עברי RTL, מבוסס Electron.
-- **מסך בית** עם כל הכוננים, בר תפוס/פנוי וגודל כולל; סריקת כונן בודד או "סרוק הכל".
-- **מנוע סריקה מהיר** מבוסס `robocopy /MT` ב-worker נפרד — פי ~3.5 מהיר מ-`stat` פר קובץ
-  (~7ש' על C:\Windows במקום ~25ש'), עם התקדמות חיה וביטול נקי.
-- **Treemap** (אלגוריתם squarified עצמאי) + רשימת אחוזים, צלילה לתת-תיקיות עם breadcrumb.
-- **כפתור "פתח בסייר"** לכל פריט — האפליקציה אינה מוחקת, המחיקה ידנית.
-- **שמירת סריקות** לכל כונן + "הצג תוצאות אחרונות" ו-"חזרה לתוצאות" (ללא סריקה מחדש).
-- **טאב "התיקיות הכי גדולות"** — רשימה שטוחה עם קפיצה ישירה לתיקייה.
-- **טאב "שינויים"** — השוואה לסריקה קודמת (מה גדל / התפנה / חדש).
-- **מיון וסינון** לפי גודל/שם, סליידר "הצג מעל", והדגשת תיקיות מעל סף.
-- **הפצה**: קובץ התקנה NSIS (Setup.exe), גרסת portable, פקודת התקנה בשורה אחת (`install.ps1`),
-  ובניית גרסאות אוטומטית ב-GitHub Actions.
+### Added
+- **Disk-space scanner for Windows 11**, built on Electron.
+- **Home screen** with all drives, a used/free bar and total size; scan a single drive or "Scan all".
+- **Fast scan engine** based on `robocopy /MT` in a separate worker — ~3.5× faster than
+  per-file `stat` (~7s on C:\Windows instead of ~25s), with live progress and clean cancel.
+- **Treemap** (self-contained squarified algorithm) + a percentage list, drill-down into
+  subfolders with a breadcrumb.
+- **"Open in Explorer" button** on every item — the app never deletes; removal is manual.
+- **Saved scans** per drive + "Show last results" and "Back to results" (no rescan needed).
+- **"Biggest folders" tab** — a flat list with a direct jump to any folder.
+- **"Changes" tab** — comparison against the previous scan (what grew / freed up / is new).
+- **Sorting & filtering** by size/name, a "Show above" slider, and highlighting of folders
+  above a threshold.
+- **Distribution**: NSIS installer (Setup.exe), a portable build, a one-line install
+  command (`install.ps1`), and automated release builds on GitHub Actions.
 
-### תוקן
-- מסך הבית מתרענן אוטומטית אחרי סריקה (סטטוס "נסרק לאחרונה" ומקום פנוי) בלי לחיצה ידנית.
+### Fixed
+- The home screen refreshes automatically after a scan (last-scanned status and free space)
+  without a manual click.
 
 [1.0.0]: https://github.com/MatanCH2020/disk-space-analyzer/releases/tag/v1.0.0
-
-</div>

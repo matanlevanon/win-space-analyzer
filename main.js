@@ -1,6 +1,6 @@
 'use strict';
 
-// הגדלת מאגר ה-I/O threads של libuv (משותף לכל התהליך כולל workers) — לפני כל שימוש ב-fs.
+// Enlarge libuv's I/O thread pool (shared process-wide, including workers) — before any fs use.
 process.env.UV_THREADPOOL_SIZE = process.env.UV_THREADPOOL_SIZE || '24';
 
 const { app, BrowserWindow, ipcMain, shell, dialog, Tray, Menu, nativeImage } = require('electron');
@@ -16,7 +16,7 @@ let tray = null;
 
 const ICON_PATH = path.join(__dirname, 'build', 'icon.ico');
 
-// ---------- הגדרות (שפה) ----------
+// ---------- Settings (language) ----------
 const SETTINGS_FILE = path.join(app.getPath('userData'), 'settings.json');
 function readSettings() {
   try { return JSON.parse(fs.readFileSync(SETTINGS_FILE, 'utf8')); } catch (_) { return {}; }
@@ -31,7 +31,7 @@ const MAIN_STRINGS = {
 };
 function ms(key) { return MAIN_STRINGS[currentLang][key]; }
 
-// ---------- אחסון סריקות שמורות ----------
+// ---------- Saved-scan storage ----------
 const SCANS_DIR = path.join(app.getPath('userData'), 'scans');
 const INDEX_FILE = path.join(SCANS_DIR, 'index.json');
 
@@ -71,7 +71,7 @@ function createWindow() {
   mainWindow.removeMenu();
   mainWindow.loadFile(path.join(__dirname, 'renderer', 'index.html'));
 
-  // סגירת החלון מסתירה ל-tray (האפליקציה ממשיכה לרוץ); יציאה אמיתית דרך התפריט.
+  // Closing the window hides to the tray (the app keeps running); real exit via the menu.
   mainWindow.on('close', (e) => {
     if (!app.isQuitting) {
       e.preventDefault();
@@ -115,7 +115,7 @@ function createTray() {
   } catch (_) {}
 }
 
-// שינוי שפה מה-renderer — נשמר להפעלות הבאות ומרענן את ה-tray
+// Language change from the renderer — persisted for future launches, refreshes the tray
 ipcMain.handle('set-language', (_evt, lang) => {
   currentLang = lang === 'he' ? 'he' : 'en';
   const s = readSettings();
@@ -139,12 +139,12 @@ app.whenReady().then(() => {
 
 app.on('before-quit', () => { app.isQuitting = true; });
 
-// לא יוצאים אוטומטית כשהחלון נסגר — נשארים ב-tray עד יציאה מפורשת.
+// Don't quit automatically when the window closes — stay in the tray until explicit exit.
 app.on('window-all-closed', () => {
   if (process.platform === 'darwin' && app.isQuitting) app.quit();
 });
 
-// ---------- עדכונים אוטומטיים (electron-updater) ----------
+// ---------- Automatic updates (electron-updater) ----------
 function sendUpdateStatus(status, data) {
   if (mainWindow && !mainWindow.isDestroyed()) {
     mainWindow.webContents.send('update-status', Object.assign({ status }, data || {}));
@@ -174,7 +174,7 @@ ipcMain.handle('download-update', async () => {
 });
 ipcMain.handle('install-update', () => { app.isQuitting = true; autoUpdater.quitAndInstall(); });
 
-// ---------- מניית כוננים דרך PowerShell ----------
+// ---------- Drive enumeration via PowerShell ----------
 function listDrives() {
   return new Promise((resolve) => {
     // Get-CimInstance Win32_LogicalDisk → DeviceID, Size, FreeSpace, VolumeName, DriveType
@@ -197,11 +197,11 @@ function listDrives() {
           if (!Array.isArray(parsed)) parsed = [parsed];
           const driveTypeName = (t) => {
             switch (Number(t)) {
-              case 2: return 'נשלף';       // Removable
-              case 3: return 'קבוע';        // Local disk
-              case 4: return 'רשת';         // Network
-              case 5: return 'תקליטור';     // CD-ROM
-              default: return 'אחר';
+              case 2: return 'Removable';
+              case 3: return 'Local disk';
+              case 4: return 'Network';
+              case 5: return 'CD-ROM';
+              default: return 'Other';
             }
           };
           const drives = parsed
@@ -220,7 +220,7 @@ function listDrives() {
                 driveType: Number(d.DriveType)
               };
             })
-            // רק כוננים עם קיבולת אמיתית (מסנן כונני רשת/תקליטור ריקים)
+            // Only drives with real capacity (filters out empty network/CD drives)
             .filter((d) => d.total > 0);
           resolve(drives);
         } catch (e) {
@@ -235,11 +235,11 @@ ipcMain.handle('list-drives', async () => {
   return await listDrives();
 });
 
-// ---------- פתיחה בסייר Windows ----------
+// ---------- Open in Windows Explorer ----------
 ipcMain.handle('open-in-explorer', async (_evt, targetPath) => {
   if (!targetPath || typeof targetPath !== 'string') return { ok: false };
   try {
-    // showItemInFolder מסמן את הפריט בתוך התיקייה המכילה אותו
+    // showItemInFolder highlights the item inside its containing folder
     shell.showItemInFolder(targetPath);
     return { ok: true };
   } catch (e) {
@@ -247,8 +247,8 @@ ipcMain.handle('open-in-explorer', async (_evt, targetPath) => {
   }
 });
 
-// ---------- שמירה/טעינה של סריקות ----------
-// שומר עץ סריקה לכונן, ומגלגל את הסריקה הקודמת (עבור השוואה).
+// ---------- Saving/loading scans ----------
+// Saves a scan tree per drive, rolling the previous scan over (for comparison).
 ipcMain.handle('save-scan', async (_evt, payload) => {
   try {
     ensureScansDir();
@@ -256,7 +256,7 @@ ipcMain.handle('save-scan', async (_evt, payload) => {
     const curFile = scanFilePath(driveId, false);
     const prevFile = scanFilePath(driveId, true);
 
-    // גלגול: הסריקה הנוכחית הופכת ל"קודמת"
+    // Roll-over: the current scan becomes the "previous" one
     let hadPrev = false;
     if (fs.existsSync(curFile)) {
       try { fs.copyFileSync(curFile, prevFile); hadPrev = true; } catch (_) {}
@@ -282,7 +282,7 @@ ipcMain.handle('load-scan', async (_evt, driveId) => {
     const data = JSON.parse(fs.readFileSync(scanFilePath(driveId, false), 'utf8'));
     return { ok: true, meta: data.meta, tree: data.tree };
   } catch (e) {
-    return { ok: false, error: 'לא נמצאה סריקה שמורה' };
+    return { ok: false, error: 'No saved scan found' };
   }
 });
 
@@ -295,12 +295,12 @@ ipcMain.handle('load-prev-scan', async (_evt, driveId) => {
   }
 });
 
-// ---------- סריקה דרך worker_thread ----------
+// ---------- Scanning via worker_thread ----------
 function terminateWorker() {
   if (activeWorker) {
     const w = activeWorker;
     activeWorker = null;
-    // בקשה מסודרת לעצור (הורגת את robocopy ומנקה קבצים זמניים), ואז terminate כגיבוי
+    // Graceful stop request (kills robocopy and cleans temp files), then terminate as fallback
     try { w.postMessage({ cancel: true }); } catch (_) {}
     setTimeout(() => { try { w.terminate(); } catch (_) {} }, 800);
   }
@@ -343,7 +343,7 @@ ipcMain.handle('scan-start', async (_evt, rootPath) => {
     worker.on('exit', (code) => {
       if (activeWorker === worker) activeWorker = null;
       if (code !== 0) {
-        resolve({ ok: false, error: 'הסריקה הופסקה או נכשלה (קוד ' + code + ')' });
+        resolve({ ok: false, error: 'Scan was stopped or failed (code ' + code + ')' });
       }
     });
   });

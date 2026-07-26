@@ -1,9 +1,9 @@
 'use strict';
 
 /*
- * מנוע סריקה מבוסס robocopy (מובנה ב-Windows).
- * robocopy במצב רשימה (/L) מונה את כל הקבצים עם הגדלים בפעולה מקבילית (/MT),
- * הרבה יותר מהר מ-stat פר קובץ. אנחנו רק צוברים גודל פר תיקייה ובונים עץ.
+ * Scan engine based on robocopy (built into Windows).
+ * robocopy in list mode (/L) enumerates all files with sizes in parallel (/MT),
+ * much faster than per-file stat. We just accumulate size per folder and build a tree.
  */
 
 const { parentPort, workerData } = require('worker_threads');
@@ -15,7 +15,7 @@ const readline = require('readline');
 
 const MAX_CHILDREN = 400;
 
-// נרמול נתיב השורש
+// Normalize the root path
 let rootPath = workerData.rootPath;
 if (/^[A-Za-z]:$/.test(rootPath)) rootPath += '\\';
 let normRoot = rootPath;
@@ -29,7 +29,7 @@ let child = null;
 let cancelled = false;
 let progressTimer = null;
 
-// ---------- ביטול מ-main ----------
+// ---------- Cancellation from main ----------
 parentPort.on('message', (msg) => {
   if (msg && msg.cancel) {
     cancelled = true;
@@ -47,7 +47,7 @@ function cleanupTemp() {
   try { fs.unlinkSync(logFile); } catch (_) {}
 }
 
-// ---------- מעקב התקדמות: קריאת בייטים חדשים מהלוג וספירת שורות ----------
+// ---------- Progress tracking: read new bytes from the log and count lines ----------
 let progressOffset = 0;
 let filesSeen = 0;
 let lastPathSeen = normRoot;
@@ -56,7 +56,7 @@ const LINE_RE = /^\s*(\d+)\s+([A-Za-z]:.+)$/;
 function pollProgress() {
   fs.stat(logFile, (err, st) => {
     if (err || st.size <= progressOffset) return;
-    // גודל קובץ UTF-16LE תמיד זוגי → יישור בטוח
+    // UTF-16LE file size is always even → safe alignment
     const start = progressOffset;
     const end = st.size - 1;
     progressOffset = st.size;
@@ -88,7 +88,7 @@ function pollProgress() {
   });
 }
 
-// ---------- בניית עץ תיקיות ----------
+// ---------- Building the folder tree ----------
 const nodes = new Map(); // key: lowercased path → node
 function ensureDir(dir) {
   const key = dir.toLowerCase();
@@ -111,7 +111,7 @@ function finalize(node) {
   }
   if (node.ownSize > 0) {
     node.children.push({
-      name: 'קבצים בתיקייה זו',
+      name: 'Files in this folder',  // localized at render time via type
       path: node.path,
       size: node.ownSize,
       type: 'files-here'
@@ -127,7 +127,7 @@ function finalize(node) {
     let restSize = 0;
     for (const r of rest) restSize += r.size;
     kept.push({
-      name: rest.length + ' פריטים נוספים',
+      name: rest.length + ' more items',  // localized at render time via type
       path: node.path,
       size: restSize,
       type: 'more-bucket',
@@ -138,7 +138,7 @@ function finalize(node) {
   node.type = 'dir';
 }
 
-// ---------- פענוח הלוג ובניית התוצאה ----------
+// ---------- Parsing the log and building the result ----------
 function parseAndFinish() {
   stopProgress();
   const root = ensureDir(normRoot);
@@ -172,12 +172,12 @@ function parseAndFinish() {
   });
 
   rl.on('error', (e) => {
-    parentPort.postMessage({ type: 'error', error: 'שגיאת קריאת לוג: ' + String(e && e.message) });
+    parentPort.postMessage({ type: 'error', error: 'Log read error: ' + String(e && e.message) });
     cleanupTemp();
   });
 }
 
-// ---------- הרצה ----------
+// ---------- Run ----------
 const args = [
   normRoot, nullDest,
   '/L', '/E', '/BYTES', '/NJH', '/NJS', '/NDL', '/NC', '/FP', '/NP',
@@ -189,25 +189,25 @@ try {
 
   child.on('error', (err) => {
     stopProgress();
-    parentPort.postMessage({ type: 'error', error: 'לא ניתן להריץ robocopy: ' + err.message });
+    parentPort.postMessage({ type: 'error', error: 'Could not run robocopy: ' + err.message });
     cleanupTemp();
   });
 
   child.on('close', (code) => {
     stopProgress();
     if (cancelled) { cleanupTemp(); return; }
-    // robocopy: קוד >=16 = שגיאה קטלנית; אחרת יש נתונים (גם אם חלק מהתיקיות נחסמו)
+    // robocopy: code >=16 = fatal error; otherwise there is data (even if some folders were blocked)
     if (code >= 16) {
-      // ננסה בכל זאת לפענח אם נכתב לוג
+      // Still try to parse if a log was written
       if (!fs.existsSync(logFile)) {
-        parentPort.postMessage({ type: 'error', error: 'robocopy נכשל (קוד ' + code + ')' });
+        parentPort.postMessage({ type: 'error', error: 'robocopy failed (code ' + code + ')' });
         return;
       }
     }
     parseAndFinish();
   });
 
-  // מעקב התקדמות כל 500ms
+  // Progress polling every 500ms
   progressTimer = setInterval(pollProgress, 500);
 } catch (e) {
   parentPort.postMessage({ type: 'error', error: String(e && e.message ? e.message : e) });

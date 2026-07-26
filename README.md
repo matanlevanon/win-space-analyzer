@@ -1,25 +1,25 @@
 <div align="center">
 
-<img src="build/icon-256.png" width="120" alt="ניהול אחסון" />
+<img src="build/icon-256.png" width="120" alt="Win Space Analyzer" />
 
-# ניהול אחסון · win-space-analyzer
+# Win Space Analyzer
 
-### 💾 מצא מיד מה תופס לך מקום ב-Windows 11
+### 💾 Instantly see what's eating your disk space on Windows 11
 
-סורק אחסון מהיר בממשק עברי — מפת ריבועים ויזואלית שקל לצלול לתוכה, בפקודת התקנה אחת.
+A fast disk-space scanner with a visual treemap you can dive right into — installed with a single command. English & Hebrew UI.
 
 <br />
 
-[![Release](https://img.shields.io/github/v/release/matanlevanon/win-space-analyzer?style=flat-square&color=4f93ff&label=%D7%92%D7%A8%D7%A1%D7%94)](https://github.com/matanlevanon/win-space-analyzer/releases/latest)
-[![Downloads](https://img.shields.io/github/downloads/matanlevanon/win-space-analyzer/total?style=flat-square&color=35c46a&label=%D7%94%D7%95%D7%A8%D7%93%D7%95%D7%AA)](https://github.com/matanlevanon/win-space-analyzer/releases)
-[![License](https://img.shields.io/github/license/matanlevanon/win-space-analyzer?style=flat-square&color=9b6dff&label=%D7%A8%D7%99%D7%A9%D7%99%D7%95%D7%9F)](LICENSE)
+[![Release](https://img.shields.io/github/v/release/matanlevanon/win-space-analyzer?style=flat-square&color=4f93ff)](https://github.com/matanlevanon/win-space-analyzer/releases/latest)
+[![Downloads](https://img.shields.io/github/downloads/matanlevanon/win-space-analyzer/total?style=flat-square&color=35c46a)](https://github.com/matanlevanon/win-space-analyzer/releases)
+[![License](https://img.shields.io/github/license/matanlevanon/win-space-analyzer?style=flat-square&color=9b6dff)](LICENSE)
 [![Platform](https://img.shields.io/badge/Windows-11-0078D6?style=flat-square&logo=windows&logoColor=white)](https://github.com/matanlevanon/win-space-analyzer/releases/latest)
 
-**[⬇️ הורדה ל-Windows](https://github.com/matanlevanon/win-space-analyzer/releases/latest) · [🌐 דף הבית](https://matanlevanon.github.io/win-space-analyzer/) · [📦 קוד המקור](https://github.com/matanlevanon/win-space-analyzer)**
+**[⬇️ Download for Windows](https://github.com/matanlevanon/win-space-analyzer/releases/latest) · [🌐 Website](https://matanlevanon.github.io/win-space-analyzer/) · [📦 Source code](https://github.com/matanlevanon/win-space-analyzer)**
 
 <br />
 
-<img src="docs/screenshot.png" width="840" alt="צילום מסך של האפליקציה — מפת ריבועים ורשימת תיקיות לפי גודל" />
+<img src="docs/screenshot.png" width="840" alt="Screenshot of the app — a treemap and a folder list sorted by size" />
 
 </div>
 
@@ -27,9 +27,9 @@
 
 <div align="center">
 
-## ⚡ התקנה בפקודה אחת
+## ⚡ One-command install
 
-פותחים **PowerShell** ומדביקים:
+Open **PowerShell** and paste:
 
 </div>
 
@@ -39,12 +39,12 @@ irm https://raw.githubusercontent.com/matanlevanon/win-space-analyzer/main/insta
 
 <div align="center">
 
-הפקודה מורידה את הגרסה האחרונה ומריצה את ההתקנה אוטומטית.
+The command downloads the latest release and launches the installer automatically.
 <br />
-מעדיפים התקנה רגילה? הורידו את **[קובץ ה-Setup](https://github.com/matanlevanon/win-space-analyzer/releases/latest)** והריצו כמו כל תוכנה.
+Prefer a regular install? Download the **[Setup file](https://github.com/matanlevanon/win-space-analyzer/releases/latest)** and run it like any app.
 
-> ⚠️ האפליקציה אינה חתומה דיגיטלית — בהפעלה הראשונה ייתכן ש-SmartScreen יזהיר.
-> לחצו **"מידע נוסף" → "הפעל בכל זאת"**. הקוד פתוח וניתן לבדיקה כאן.
+> ⚠️ The app isn't digitally signed yet — Windows SmartScreen may warn on first run.
+> Click **"More info" → "Run anyway"**. The code is fully open and auditable right here.
 
 </div>
 
@@ -52,7 +52,7 @@ irm https://raw.githubusercontent.com/matanlevanon/win-space-analyzer/main/insta
 
 <div align="center">
 
-## ✨ יכולות
+## ✨ Features
 
 </div>
 
@@ -60,40 +60,40 @@ irm https://raw.githubusercontent.com/matanlevanon/win-space-analyzer/main/insta
 <tr>
 <td width="33%" valign="top" align="center">
 
-### ⚡ סריקה מהירה
-מנוע robocopy מקבילי סורק כונן מלא בכ-30 שניות — פי 3.5 מהיר מסריקה רגילה.
+### ⚡ Fast scanning
+A parallel robocopy-based engine scans a full drive in ~30 seconds — about 3.5× faster than a regular scan.
 
 </td>
 <td width="33%" valign="top" align="center">
 
-### 🗂️ מפת ריבועים
-כל תיקייה כריבוע בגודל יחסי — רואים בשנייה מה גדול, ולוחצים לצלול פנימה.
+### 🗂️ Visual treemap
+Every folder is a tile sized by weight — spot the big ones at a glance, click to dive in.
 
 </td>
 <td width="33%" valign="top" align="center">
 
-### 📊 הכי גדולות
-רשימה שטוחה של התיקיות הכבדות בכל הכונן, עם קפיצה ישירה.
+### 📊 Biggest folders
+A flat list of the heaviest folders across the whole drive, with one-click jump.
 
 </td>
 </tr>
 <tr>
 <td width="33%" valign="top" align="center">
 
-### 📈 השוואה לסריקה קודמת
-רואים בדיוק מה גדל, מה התפנה ומה חדש מאז הפעם הקודמת.
+### 📈 Compare with previous scan
+See exactly what grew, what freed up, and what's new since last time.
 
 </td>
 <td width="33%" valign="top" align="center">
 
-### 💾 שמירת סריקות
-כל כונן זוכר את הסריקה האחרונה — חוזרים לתוצאות מיד, בלי לסרוק שוב.
+### 💾 Saved scans
+Every drive remembers its last scan — jump back to the results instantly, no rescan.
 
 </td>
 <td width="33%" valign="top" align="center">
 
-### 🛡️ בטוח לחלוטין
-האפליקציה **לא מוחקת כלום** — רק מאתרת. "פתח בסייר" לכל פריט, והמחיקה בשליטתך.
+### 🛡️ Completely safe
+The app **deletes nothing** — it only finds and shows. "Open in Explorer" on every item; deleting stays in your hands.
 
 </td>
 </tr>
@@ -103,38 +103,44 @@ irm https://raw.githubusercontent.com/matanlevanon/win-space-analyzer/main/insta
 
 <div align="center">
 
-## 🚀 איך זה עובד
+## 🌍 Bilingual
 
-**1.** מתקינים בפקודה אחת &nbsp;·&nbsp; **2.** סורקים כונן (~30 שניות) &nbsp;·&nbsp; **3.** מזהים תיקייה כבדה ולוחצים "פתח בסייר" למחיקה ידנית
+The UI ships in **English and Hebrew (עברית)** with full RTL support — switch languages any time with one click in the header. Your choice is remembered.
 
 <br />
 
-## 🛠️ פיתוח והרצה מהמקור
+## 🚀 How it works
+
+**1.** Install with one command &nbsp;·&nbsp; **2.** Scan a drive (~30 seconds) &nbsp;·&nbsp; **3.** Spot the heavy folder and hit "Open in Explorer" to delete it yourself
+
+<br />
+
+## 🛠️ Develop & run from source
 
 </div>
 
-דרוש [Node.js](https://nodejs.org/) 18+.
+Requires [Node.js](https://nodejs.org/) 18+.
 
 ```bash
 git clone https://github.com/matanlevanon/win-space-analyzer.git
 cd win-space-analyzer
 npm install
-npm start          # הרצה לפיתוח
-npm run build      # בניית Setup.exe + portable לתיקיית dist/
+npm start          # run in development
+npm run build      # build Setup.exe + portable into dist/
 ```
 
 <div align="center">
 
-**איך זה בנוי:** Electron · מנוע סריקה מבוסס `robocopy /MT` ב-worker נפרד · Treemap עצמאי (אלגוריתם squarified) ללא תלויות חיצוניות.
+**Under the hood:** Electron · a `robocopy /MT`-based scan engine in a separate worker · a self-contained treemap (squarified algorithm) with zero external dependencies.
 
 <br />
 
-מעוניינים בפירוט? ראו את [יומן השינויים](CHANGELOG.md).
+Want the details? See the [changelog](CHANGELOG.md).
 
 <br />
 
-נבנה עבור Windows 11 · קוד פתוח תחת רישיון [MIT](LICENSE)
+Built for Windows 11 · Open source under the [MIT](LICENSE) license
 
-מבוסס על הפרויקט [disk-space-analyzer](https://github.com/MatanCH2020/disk-space-analyzer) (MIT) · Based on disk-space-analyzer by MatanCH2020, extended with a bilingual UI and more.
+Based on [disk-space-analyzer](https://github.com/MatanCH2020/disk-space-analyzer) by MatanCH2020 (MIT), extended with a bilingual UI, a persistent volume usage bar, and more.
 
 </div>

@@ -1,8 +1,8 @@
 'use strict';
 
 /*
- * Treemap עצמאי (אלגוריתם squarified) — ללא תלויות חיצוניות.
- * מרנדר ריבועים בגודל יחסי לגודל הפריט, לחיצה = צלילה פנימה.
+ * Self-contained treemap (squarified algorithm) — no external dependencies.
+ * Renders tiles sized relative to item size; click = drill in.
  */
 (function () {
   const PALETTE = [
@@ -20,7 +20,7 @@
     return Math.max((l2 * rowMax) / s2, s2 / (l2 * rowMin));
   }
 
-  // מחזיר מערך מלבנים {x,y,w,h,index} עבור ערכי values בתוך rect.
+  // Returns an array of rectangles {x,y,w,h,index} for the values within rect.
   function squarify(values, rect) {
     const result = new Array(values.length);
     const totalValue = values.reduce((a, v) => a + v.value, 0);
@@ -39,7 +39,7 @@
       let rowVals = [];
       let start = i;
 
-      // בנה שורה שממזערת את יחס הצורה
+      // Build a row that minimizes the aspect ratio
       while (i < items.length) {
         const candidate = rowVals.concat(items[i].value);
         if (rowVals.length === 0 ||
@@ -52,11 +52,11 @@
         }
       }
 
-      // פרוס את השורה לאורך הצד הקצר
+      // Lay the row along the short side
       const rowSum = rowVals.reduce((a, v) => a + v, 0);
       const rowArea = rowSum * scale;
       if (w >= h) {
-        // עמודה בצד — רוחב = rowArea / h
+        // Side column — width = rowArea / h
         const colW = rowArea / h;
         let cy = y;
         for (let k = 0; k < row.length; k++) {
@@ -67,7 +67,7 @@
         x += colW;
         w -= colW;
       } else {
-        // שורה למעלה — גובה = rowArea / w
+        // Top row — height = rowArea / w
         const rowH = rowArea / w;
         let cx = x;
         for (let k = 0; k < row.length; k++) {
@@ -98,7 +98,7 @@
     const H = container.clientHeight;
     if (W < 5 || H < 5) return;
 
-    // סנן פריטים עם גודל 0 ומיין יורד
+    // Filter zero-size items and sort descending
     const data = items
       .filter((it) => it.size > 0)
       .sort((a, b) => b.size - a.size);
@@ -132,7 +132,7 @@
         tile.classList.add('highlight');
       }
 
-      // תווית רק אם יש מספיק מקום
+      // Label only if there is enough room
       if (r.w > 46 && r.h > 26) {
         const label = document.createElement('div');
         label.className = 'tm-label';

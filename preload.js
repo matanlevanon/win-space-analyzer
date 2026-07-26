@@ -3,35 +3,35 @@
 const { contextBridge, ipcRenderer } = require('electron');
 
 contextBridge.exposeInMainWorld('api', {
-  // מחזיר רשימת כוננים עם total/free/used
+  // Returns the drive list with total/free/used
   listDrives: () => ipcRenderer.invoke('list-drives'),
 
-  // מתחיל סריקה של נתיב; מחזיר { ok, tree } כשמסתיים
+  // Starts scanning a path; resolves { ok, tree } when done
   scanStart: (rootPath) => ipcRenderer.invoke('scan-start', rootPath),
 
-  // מבטל סריקה פעילה
+  // Cancels an active scan
   scanCancel: () => ipcRenderer.invoke('scan-cancel'),
 
-  // פותח פריט בסייר Windows (מסמן אותו בתיקייה המכילה)
+  // Opens an item in Windows Explorer (highlighted in its folder)
   openInExplorer: (targetPath) => ipcRenderer.invoke('open-in-explorer', targetPath),
 
-  // שמירה/טעינה של סריקות
+  // Saving/loading scans
   saveScan: (payload) => ipcRenderer.invoke('save-scan', payload),
   listScans: () => ipcRenderer.invoke('list-scans'),
   loadScan: (driveId) => ipcRenderer.invoke('load-scan', driveId),
   loadPrevScan: (driveId) => ipcRenderer.invoke('load-prev-scan', driveId),
 
-  // האזנה להתקדמות הסריקה
+  // Scan progress listener
   onScanProgress: (callback) => {
     const listener = (_evt, data) => callback(data);
     ipcRenderer.on('scan-progress', listener);
     return () => ipcRenderer.removeListener('scan-progress', listener);
   },
 
-  // שפה — מסנכרן את תפריט ה-tray עם שפת הממשק
+  // Language — keeps the tray menu in sync with the UI language
   setLanguage: (lang) => ipcRenderer.invoke('set-language', lang),
 
-  // גרסה ועדכונים
+  // Version & updates
   getVersion: () => ipcRenderer.invoke('get-version'),
   checkForUpdates: () => ipcRenderer.invoke('check-for-updates'),
   downloadUpdate: () => ipcRenderer.invoke('download-update'),

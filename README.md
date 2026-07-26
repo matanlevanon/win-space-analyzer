@@ -6,7 +6,7 @@
 
 ### 💾 Instantly see what's eating your disk space on Windows 11
 
-A fast disk-space scanner with a visual treemap you can dive right into — installed with a single command. English & Hebrew UI.
+A fast disk-space scanner with a visual treemap you can dive right into - installed with a single command. English & Hebrew UI.
 
 <br />
 
@@ -19,7 +19,7 @@ A fast disk-space scanner with a visual treemap you can dive right into — inst
 
 <br />
 
-<img src="docs/screenshot.png" width="840" alt="Screenshot of the app — a treemap and a folder list sorted by size" />
+<img src="docs/screenshot.png" width="840" alt="Screenshot of the app - a treemap and a folder list sorted by size" />
 
 </div>
 
@@ -43,7 +43,7 @@ The command downloads the latest release and launches the installer automaticall
 <br />
 Prefer a regular install? Download the **[Setup file](https://github.com/matanlevanon/win-space-analyzer/releases/latest)** and run it like any app.
 
-> ⚠️ The app isn't digitally signed yet — Windows SmartScreen may warn on first run.
+> ⚠️ The app isn't digitally signed yet - Windows SmartScreen may warn on first run.
 > Click **"More info" → "Run anyway"**. The code is fully open and auditable right here.
 
 </div>
@@ -61,13 +61,13 @@ Prefer a regular install? Download the **[Setup file](https://github.com/matanle
 <td width="33%" valign="top" align="center">
 
 ### ⚡ Fast scanning
-A parallel robocopy-based engine scans a full drive in ~30 seconds — about 3.5× faster than a regular scan.
+A parallel robocopy-based engine scans a full drive in ~30 seconds - about 3.5× faster than a regular scan.
 
 </td>
 <td width="33%" valign="top" align="center">
 
 ### 🗂️ Visual treemap
-Every folder is a tile sized by weight — spot the big ones at a glance, click to dive in.
+Every folder is a tile sized by weight - spot the big ones at a glance, click to dive in.
 
 </td>
 <td width="33%" valign="top" align="center">
@@ -87,13 +87,13 @@ See exactly what grew, what freed up, and what's new since last time.
 <td width="33%" valign="top" align="center">
 
 ### 💾 Saved scans
-Every drive remembers its last scan — jump back to the results instantly, no rescan.
+Every drive remembers its last scan - jump back to the results instantly, no rescan.
 
 </td>
 <td width="33%" valign="top" align="center">
 
 ### 🛡️ Completely safe
-The app **deletes nothing** — it only finds and shows. "Open in Explorer" on every item; deleting stays in your hands.
+The app **deletes nothing** - it only finds and shows. "Open in Explorer" on every item. Deleting stays in your hands.
 
 </td>
 </tr>
@@ -105,7 +105,7 @@ The app **deletes nothing** — it only finds and shows. "Open in Explorer" on e
 
 ## 🌍 Bilingual
 
-The UI ships in **English and Hebrew (עברית)** with full RTL support — switch languages any time with one click in the header. Your choice is remembered.
+The UI ships in **English and Hebrew (עברית)** with full RTL support - switch languages any time with one click in the header. Your choice is remembered.
 
 <br />
 
